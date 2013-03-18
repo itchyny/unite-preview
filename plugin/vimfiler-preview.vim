@@ -3,7 +3,7 @@
 " Version: 0.0
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/03/18 19:53:21.
+" Last Change: 2013/03/18 20:06:41.
 " =============================================================================
 
 if exists('g:loaded_vimfiler_preview')
@@ -348,6 +348,7 @@ augroup VimfilerPreview
         \ <Plug>(vimfiler_auto_preview_file)
         \ :<C-u>call vimfiler#mappings#do_action('auto_preview')<CR>
   autocmd BufNewFile,BufReadPost *.cam  setlocal filetype=cam
+  autocmd BufNewFile,BufReadPost *.xxd setlocal filetype=xxd
 augroup END
 
 call unite#custom_action('file', 'auto_preview', s:auto_preview)
