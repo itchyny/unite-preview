@@ -3,7 +3,7 @@
 " Version: 0.0
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/03/19 11:32:26.
+" Last Change: 2013/04/01 08:48:04.
 " =============================================================================
 
 if exists('g:loaded_vimfiler_preview')
@@ -209,6 +209,7 @@ endfunction
 function! s:preview_setlocal()
   setlocal nomodifiable buftype=nofile noswapfile readonly
         \ bufhidden=hide nobuflisted
+  redraw
 endfunction
 
 function! s:preview_window(type)
