@@ -3,7 +3,7 @@
 " Version: 0.0
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/04/01 08:48:04.
+" Last Change: 2013/05/14 12:01:42.
 " =============================================================================
 
 if exists('g:loaded_vimfiler_preview')
@@ -61,8 +61,9 @@ if executable('xxd')
       endif
       let istext = fileb =~ 'text'
       let isexec = fileb =~ 'exec'
+      let isregexec = fileb =~ 'regexec'
       let isobject = fileb =~ 'object'
-      return !istext && (isexec || isobject)
+      return !istext && (isexec && !isregexec || isobject)
     endfunction
     call s:new_preview_type(s:executable)
   endif
