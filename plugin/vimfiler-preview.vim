@@ -3,7 +3,7 @@
 " Version: 0.0
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/06/20 14:07:23.
+" Last Change: 2013/07/16 20:59:21.
 " =============================================================================
 
 if exists('g:loaded_vimfiler_preview')
@@ -353,7 +353,9 @@ augroup VimfilerPreview
   autocmd BufNewFile,BufReadPost *.xxd setlocal filetype=xxd
 augroup END
 
-call unite#custom_action('file', 'auto_preview', s:auto_preview)
+if exists('*unite#custom_action')
+  call unite#custom_action('file', 'auto_preview', s:auto_preview)
+endif
 
 let g:loaded_vimfiler_preview = 1
 
