@@ -3,7 +3,7 @@
 " Version: 0.0
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/07/16 20:59:21.
+" Last Change: 2013/08/30 21:57:50.
 " =============================================================================
 
 if exists('g:loaded_vimfiler_preview')
@@ -356,6 +356,8 @@ augroup END
 if exists('*unite#custom_action')
   call unite#custom_action('file', 'auto_preview', s:auto_preview)
 endif
+
+let g:vimfiler_preview = s:auto_preview
 
 let g:loaded_vimfiler_preview = 1
 
