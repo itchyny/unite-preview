@@ -3,7 +3,7 @@
 " Version: 0.0
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/09/23 18:11:52.
+" Last Change: 2013/09/23 20:33:34.
 " =============================================================================
 
 if exists('g:loaded_vimfiler_preview')
@@ -132,7 +132,7 @@ call s:new_preview_type(s:tar)
 if executable('pdftotext')
   let s:pdf = {
         \ 'match': '\.\(pdf\)$',
-        \ 'command': 'pdftotext -enc ASCII7 -q %s %s'
+        \ 'command': 'pdftotext -enc ASCII7 -q -eol unix -nopgbrk -raw -layout %s %s'
         \ }
   call s:new_preview_type(s:pdf)
 endif
