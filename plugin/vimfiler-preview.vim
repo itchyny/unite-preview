@@ -3,7 +3,7 @@
 " Version: 0.0
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/09/23 20:33:34.
+" Last Change: 2013/10/06 22:52:31.
 " =============================================================================
 
 if exists('g:loaded_vimfiler_preview')
@@ -88,7 +88,7 @@ let s:config_h = {
 call s:new_preview_type(s:config_h)
 
 let s:vimrc = {
-      \ 'match': 'vimrc$',
+      \ 'match': 'vimrc',
       \ 'extension': 'vim',
       \ }
 call s:new_preview_type(s:vimrc)
