@@ -2,7 +2,7 @@
 " Filename: autoload/vimfiler_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/10/31 15:11:51.
+" Last Change: 2013/11/16 23:46:59.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -176,7 +176,7 @@ function! s:preview_read(path, type, extension)
   call s:preview_window(a:extension)
   let winnrr = winnr()
   setlocal modifiable noreadonly
-  silent execute '0r' escape(vimfiler#util#escape_file_searching(a:path), '`')
+  silent execute '0r' escape(vimfiler#util#escape_file_searching(a:path), '`%')
   silent $ delete _
   if has_key(a:type, 'filetype')
     try
