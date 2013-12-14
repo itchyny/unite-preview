@@ -2,7 +2,7 @@
 " Filename: autoload/vimfiler_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/11/16 23:46:59.
+" Last Change: 2013/12/14 23:26:55.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -48,7 +48,7 @@ if executable('xxd')
           \ }
     function! s:executable.matcher(candidate)
       let command = printf('file -b %s',
-            \ escape(vimfiler#util#escape_file_searching(a:candidate.word), '`'))
+            \ escape(vimfiler#util#escape_file_searching(a:candidate.word), "`%'"))
       if exists('*vimproc#system()')
         let fileb = vimproc#system(command)
       else
@@ -176,7 +176,7 @@ function! s:preview_read(path, type, extension)
   call s:preview_window(a:extension)
   let winnrr = winnr()
   setlocal modifiable noreadonly
-  silent execute '0r' escape(vimfiler#util#escape_file_searching(a:path), '`%')
+  silent execute '0r' escape(vimfiler#util#escape_file_searching(a:path), "`%'")
   silent $ delete _
   if has_key(a:type, 'filetype')
     try
@@ -241,7 +241,7 @@ let s:extensionmap = {
 function! s:extract_extension(candidate)
   let ext = ''
   let shebang = system(printf('cat %s | head -n 1 | tr -d "\n"',
-        \ escape(vimfiler#util#escape_file_searching(a:candidate.word), '`')))
+        \ escape(vimfiler#util#escape_file_searching(a:candidate.word), "`%'")))
   if shebang =~? '^#!'
     let ext = substitute(substitute(shebang, '^#!.*\/', '', 'g'),
           \ '^[a-z]\+ ', '', '')
