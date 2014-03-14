@@ -2,7 +2,7 @@
 " Filename: autoload/vimfiler_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/12/14 23:26:55.
+" Last Change: 2014/03/15 02:08:10.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -83,7 +83,7 @@ let s:config_h = {
 call s:new_preview_type(s:config_h)
 
 let s:vimrc = {
-      \ 'match': 'vimrc',
+      \ 'match': 'vimrc$',
       \ 'extension': 'vim',
       \ }
 call s:new_preview_type(s:vimrc)
