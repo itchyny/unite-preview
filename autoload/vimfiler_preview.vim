@@ -49,11 +49,7 @@ if executable('xxd')
     function! s:executable.matcher(candidate)
       let command = printf('file -b %s',
             \ escape(vimfiler#util#escape_file_searching(a:candidate.word), "`%'"))
-      if exists('*vimproc#system()')
-        let fileb = vimproc#system(command)
-      else
-        let fileb = system(command)
-      endif
+      let fileb = system(command)
       let istext = fileb =~ 'text'
       let isexec = fileb =~ 'exec'
       let isregexec = fileb =~ 'regexec'
@@ -222,11 +218,7 @@ function! s:preview(path, type, extension)
       let command = printf(command,
             \ vimfiler#util#escape_file_searching(a:path))
     endif
-    if exists('*vimproc#system()')
-      silent call vimproc#system(command)
-    else
-      silent call system(command)
-    endif
+    silent! call system(command)
   endif
   if !has_key(a:type, 'funconly') || a:type.funconly == 0
     call s:preview_read(fname, a:type, a:extension)
