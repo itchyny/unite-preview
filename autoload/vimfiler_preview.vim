@@ -2,7 +2,7 @@
 " Filename: autoload/vimfiler_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2014/03/15 02:08:10.
+" Last Change: 2014/04/24 23:51:03.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -21,7 +21,7 @@ endfunction
 
 if executable('cam')
   let s:image = {
-        \ 'match': '\.\(jpe\?g\|png\)$',
+        \ 'match': '\c\.\(jpe\?g\|png\|bmp\|ico\)$',
         \ 'extension': 'cam',
         \ }
   function! s:image.func()
