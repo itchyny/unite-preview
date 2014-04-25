@@ -1,8 +1,8 @@
 " =============================================================================
-" Filename: autoload/vimfiler_preview.vim
+" Filename: autoload/unite_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2014/04/24 23:51:03.
+" Last Change: 2014/04/25 10:31:57.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -12,7 +12,7 @@ let s:preview_type = []
 
 function! s:new_preview_type(dict)
   if !has_key(a:dict, 'match') && !has_key(a:dict, 'matcher')
-    echoerr 'vimfiler-preview: specify match or matcher'
+    echoerr 'unite-preview: specify match or matcher'
     echo a:dict
     return
   endif
@@ -135,7 +135,7 @@ if executable('pdftotext')
   call s:new_preview_type(s:pdf)
 endif
 
-function! vimfiler_preview#func(candidate)
+function! unite_preview#func(candidate)
   if filereadable(a:candidate.action__path)
     for i in range(len(s:preview_type) - 1, 0, -1)
       let type = s:preview_type[i]
