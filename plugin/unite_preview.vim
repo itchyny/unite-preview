@@ -1,9 +1,9 @@
 " =============================================================================
-" Filename: plugin/unite-preview.vim
+" Filename: plugin/unite_preview.vim
 " Version: 0.0
 " Author: itchyny
 " License: MIT License
-" Last Change: 2014/04/25 10:32:48.
+" Last Change: 2014/04/25 10:34:39.
 " =============================================================================
 
 if exists('g:loaded_unite_preview')
