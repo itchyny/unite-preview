@@ -2,7 +2,7 @@
 " Filename: autoload/unite_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2014/05/02 23:10:23.
+" Last Change: 2014/05/11 20:09:10.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -180,6 +180,7 @@ function! s:preview_read(path, type, extension)
     catch
     endtry
   endif
+  doautocmd BufNewFile
   call s:set_mode_line()
   call cursor(1, 1)
   call s:preview_setlocal()
