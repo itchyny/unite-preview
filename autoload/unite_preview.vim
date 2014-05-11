@@ -2,7 +2,7 @@
 " Filename: autoload/unite_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2014/04/25 10:31:57.
+" Last Change: 2014/05/02 23:10:23.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -243,6 +243,8 @@ function! s:extract_extension(candidate)
     elseif has_key(s:extensionmap, extnonum)
       let ext = s:extensionmap[extnonum]
     endif
+  elseif shebang =~? '^#compdef '
+    let ext = 'zsh'
   elseif shebang =~? '\<xml\>'
     let ext = 'xml'
   endif
