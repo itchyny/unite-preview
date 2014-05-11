@@ -1,19 +1,19 @@
-*vimfiler-preview.txt*	A preview plugin for vimfiler
+*unite-preview.txt*	A preview plugin for vimfiler
 
-Filename: vimfiler-preview.txt
+Filename: unite-preview.txt
 Version: 0.0
 Author: itchyny
 License: MIT License
-Last Change: 2013/03/18 17:17:10.
+Last Change: 2014/05/11 20:10:03.
 
-CONTENTS					*vimfiler-preview-contents*
+CONTENTS					*unite-preview-contents*
 
-INTRODUCTION		|vimfiler-preview-introduction|
-USAGE			|vimfiler-preview-usage|
+INTRODUCTION		|unite-preview-introduction|
+USAGE			|unite-preview-usage|
 
 ==============================================================================
-INTRODUCTION					*vimfiler-preview-introduction*
-The plugin *vimfiler-preview* provides a preview feature to the file explorer
+INTRODUCTION					*unite-preview-introduction*
+The plugin *unite-preview* provides a preview feature to the file explorer
 plugin |vimfiler|. The user can view a image inside Vim with this plugin. For
 image viewing, the user is required to install the program |cam| (available at
 https://github.com/itchyny/cam).
@@ -29,7 +29,7 @@ is the implementation may be changed in the future, so the author cannot keep
 the consistency of the API for this plugin.
 
 ==============================================================================
-USAGE						*vimfiler-preview-usage*
+USAGE						*unite-preview-usage*
 In default, this plugin does not introduce any shortcut. It just add a custom
 action *auto_preview* to the file source of unite.vim. In default |vimfiler|, the
 one key stroke v is mapped to |<Plug>(vimfiler_preview_file)|. To replace this
@@ -43,7 +43,7 @@ If you don't want to overwrite, map another key to this action.
 		\ nmap <buffer> t <Plug>(vimfiler_auto_preview_file)
 <
 ==============================================================================
-VARIABLES					*vimfiler-preview-variables*
+VARIABLES					*unite-preview-variables*
 
 ==============================================================================
 vim:tw=78:sw=4:ts=8:ft=help:norl:noet:
