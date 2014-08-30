@@ -2,7 +2,7 @@
 " Filename: autoload/unite_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2014/05/11 20:09:10.
+" Last Change: 2014/08/26 23:50:01.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -65,6 +65,12 @@ let s:make = {
       \ 'filetype': 'make',
       \ }
 call s:new_preview_type(s:make)
+
+let s:make_am = {
+      \ 'match': 'Makefile\.am',
+      \ 'filetype': 'automake',
+      \ }
+call s:new_preview_type(s:make_am)
 
 let s:config = {
       \ 'match': 'configure',
