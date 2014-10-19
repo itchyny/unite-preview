@@ -2,7 +2,7 @@
 " Filename: autoload/unite_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2014/08/26 23:50:01.
+" Last Change: 2014/09/21 22:29:44.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -254,6 +254,12 @@ function! s:extract_extension(candidate)
     let ext = 'zsh'
   elseif shebang =~? '\<xml\>'
     let ext = 'xml'
+  elseif shebang =~? '^{ '
+    let lastline = system(printf('cat %s | tail -n 1 | tr -d "\n"',
+          \ escape(vimfiler#util#escape_file_searching(a:candidate.word), "`%'")))
+    if lastline =~? '}$'
+      let ext = 'vim'
+    endif
   endif
   if ext == ''
     let ext = has_key(a:candidate, 'vimfiler__extension')
