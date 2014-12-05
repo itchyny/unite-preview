@@ -57,6 +57,7 @@ highlight default link CamHideAll Ignore
 setlocal nowrap
 setlocal nocursorline
 setlocal nocursorcolumn
+setlocal synmaxcol=3000
 
 let b:current_syntax = 'cam'
 
