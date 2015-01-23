@@ -4,7 +4,7 @@ Filename: unite-preview.txt
 Version: 0.0
 Author: itchyny
 License: MIT License
-Last Change: 2014/05/11 20:10:03.
+Last Change: 2015/01/17 13:53:52.
 
 CONTENTS					*unite-preview-contents*
 
@@ -14,36 +14,29 @@ USAGE			|unite-preview-usage|
 ==============================================================================
 INTRODUCTION					*unite-preview-introduction*
 The plugin *unite-preview* provides a preview feature to the file explorer
-plugin |vimfiler|. The user can view a image inside Vim with this plugin. For
-image viewing, the user is required to install the program |cam| (available at
-https://github.com/itchyny/cam).
+plugin |vimfiler|. You can view an image inside Vim with this plugin. For image
+viewing, you are required to install the program |cam|
+(available at https://github.com/itchyny/cam).
 
-The default preview action is poor. It opens every file as a text file.
-Instead, the preview feature of this plugin deals files automatically. For
-example, if the target file is a zip file, the plugin uses the |zip#Browse|
-function. If the program |pdftotext| is installed, the plugin converts pdf
-files into text format.
+The default preview action of |vimfiler| and |unite| is poor. It opens every file
+as a text file. Instead, this plugin automatically detects the filetypes and
+views the contents with appropriate browsers. For example, if the target file
+is a zip file, the plugin uses the |zip#Browse| function. If the program
+|pdftotext| is installed, the plugin converts pdf files into a text format.
 
-In the current version, the preview behavior is not configurable. The reason
-is the implementation may be changed in the future, so the author cannot keep
-the consistency of the API for this plugin.
-
-==============================================================================
+------------------------------------------------------------------------------
 USAGE						*unite-preview-usage*
-In default, this plugin does not introduce any shortcut. It just add a custom
-action *auto_preview* to the file source of unite.vim. In default |vimfiler|, the
-one key stroke v is mapped to |<Plug>(vimfiler_preview_file)|. To replace this
-action with this preview plugin, write in the .vimrc as following.
+By default, this plugin does not introduce any shortcut. It just add a custom
+action *auto_preview* to the file source of unite.vim. Default |vimfiler| maps
+v to |<Plug>(vimfiler_preview_file)|. In order to replace this action with this
+preview plugin, write in the .vimrc as the following.
 >
 	let g:vimfiler_preview_action = 'auto_preview'
 <
 If you don't want to overwrite, map another key to this action.
 >
-	autocmd FileType vimfiler 
+	autocmd FileType vimfiler
 		\ nmap <buffer> t <Plug>(vimfiler_auto_preview_file)
 <
-==============================================================================
-VARIABLES					*unite-preview-variables*
-
 ==============================================================================
 vim:tw=78:sw=4:ts=8:ft=help:norl:noet:
