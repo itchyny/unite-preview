@@ -2,7 +2,7 @@
 " Filename: autoload/unite_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2015/02/26 00:10:15.
+" Last Change: 2015/02/26 00:10:49.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -172,11 +172,9 @@ endfunction
 
 function! s:preview_read(path, type, extension) abort
   let winnr = winnr()
-  let wincount = winnr('$')
   let col = col('.')
   let line = line('.')
   call s:preview_window(a:extension)
-  let winnrr = winnr()
   setlocal modifiable noreadonly
   silent execute '0r' escape(vimfiler#util#escape_file_searching(a:path), "`%'")
   silent $ delete _
@@ -197,7 +195,6 @@ let s:preview_temp_file = tempname()
 function! s:preview(path, type, extension) abort
   let fname = s:preview_temp_file
   let winnr = winnr()
-  let wincount = winnr('$')
   let col = col('.')
   let line = line('.')
   let existscommand = 1
