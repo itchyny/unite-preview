@@ -2,7 +2,7 @@
 " Filename: autoload/unite_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2014/09/21 22:29:44.
+" Last Change: 2015/02/18 09:58:44.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -10,7 +10,7 @@ set cpo&vim
 
 let s:preview_type = []
 
-function! s:new_preview_type(dict)
+function! s:new_preview_type(dict) abort
   if !has_key(a:dict, 'match') && !has_key(a:dict, 'matcher')
     echoerr 'unite-preview: specify match or matcher'
     echo a:dict
@@ -24,7 +24,7 @@ if executable('cam')
         \ 'match': '\c\.\(jpe\?g\|png\|bmp\|ico\)$',
         \ 'extension': 'cam',
         \ }
-  function! s:image.func()
+  function! s:image.func() abort
     let width = winwidth(0) * 9 / 10
     let height = winheight(0) * 9 / 10
     " TODO: -C (center)
@@ -46,7 +46,7 @@ if executable('xxd')
           \ 'extension': 'xxd',
           \ 'command': 'xxd %s > %s'
           \ }
-    function! s:executable.matcher(candidate)
+    function! s:executable.matcher(candidate) abort
       let command = printf('file -b %s',
             \ escape(vimfiler#util#escape_file_searching(a:candidate.word), "`%'"))
       let fileb = system(command)
@@ -114,7 +114,7 @@ let s:zip = {
       \ 'extension': 'zip',
       \ 'funconly': 1
       \ }
-function! s:zip.vimfunc(path)
+function! s:zip.vimfunc(path) abort
   call zip#Browse(a:path)
   call cursor(1, 1)
   call s:preview_setlocal()
@@ -126,7 +126,7 @@ let s:tar = {
       \ 'extension': 'tar',
       \ 'funconly': 1
       \ }
-function! s:tar.vimfunc(path)
+function! s:tar.vimfunc(path) abort
   call tar#Browse(a:path)
   call cursor(1, 1)
   call s:preview_setlocal()
@@ -141,7 +141,7 @@ if executable('pdftotext')
   call s:new_preview_type(s:pdf)
 endif
 
-function! unite_preview#func(candidate)
+function! unite_preview#func(candidate) abort
   if filereadable(a:candidate.action__path)
     for i in range(len(s:preview_type) - 1, 0, -1)
       let type = s:preview_type[i]
@@ -161,7 +161,7 @@ function! unite_preview#func(candidate)
   endif
 endfunction
 
-function! s:preview_buffer()
+function! s:preview_buffer() abort
   for i in tabpagebuflist()
     if bufexists(i) && bufloaded(i) && bufname(i) =~? '\[preview'
       return i
@@ -170,7 +170,7 @@ function! s:preview_buffer()
   return -1
 endfunction
 
-function! s:preview_read(path, type, extension)
+function! s:preview_read(path, type, extension) abort
   let winnr = winnr()
   let wincount = winnr('$')
   let col = col('.')
@@ -194,7 +194,7 @@ function! s:preview_read(path, type, extension)
 endfunction
 
 let s:preview_temp_file = tempname()
-function! s:preview(path, type, extension)
+function! s:preview(path, type, extension) abort
   let fname = s:preview_temp_file
   let winnr = winnr()
   let wincount = winnr('$')
@@ -237,7 +237,7 @@ let s:extensionmap = {
       \ 'perl': 'pl'
       \ }
 
-function! s:extract_extension(candidate)
+function! s:extract_extension(candidate) abort
   let ext = ''
   let shebang = system(printf('cat %s | head -n 1 | tr -d "\n"',
         \ escape(vimfiler#util#escape_file_searching(a:candidate.word), "`%'")))
@@ -269,13 +269,13 @@ function! s:extract_extension(candidate)
   return ext
 endfunction
 
-function! s:preview_setlocal()
+function! s:preview_setlocal() abort
   setlocal nomodifiable buftype=nofile noswapfile readonly
         \ bufhidden=hide nobuflisted
   " redraw
 endfunction
 
-function! s:preview_window(type)
+function! s:preview_window(type) abort
   let bufnum = s:preview_buffer()
   if bufnum == -1
     silent execute 'rightb vnew'
@@ -312,7 +312,7 @@ function! s:preview_window(type)
   silent % delete _
 endfunction
 
-function! s:preview_restore(wincount, winnr, line, col)
+function! s:preview_restore(wincount, winnr, line, col) abort
   " if a:wincount == winnr('$')
     silent execute a:winnr 'wincmd w'
   " else
@@ -321,7 +321,7 @@ function! s:preview_restore(wincount, winnr, line, col)
   call cursor(a:line, a:col)
 endfunction
 
-function! s:set_mode_line()
+function! s:set_mode_line() abort
   let end = line("$")
   let tail = getline(max([end - &modelines + 1, 1]), end)
   for line in tail
