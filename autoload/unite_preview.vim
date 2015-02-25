@@ -2,7 +2,7 @@
 " Filename: autoload/unite_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2015/02/18 09:58:44.
+" Last Change: 2015/02/26 00:00:29.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -322,7 +322,7 @@ function! s:preview_restore(wincount, winnr, line, col) abort
 endfunction
 
 function! s:set_mode_line() abort
-  let end = line("$")
+  let end = line('$')
   let tail = getline(max([end - &modelines + 1, 1]), end)
   for line in tail
     let mlist = matchlist(line, '\%(^.*[ \t]\|^\)\%(vim\?\|ex\):[ \t]\?\(.*\)')

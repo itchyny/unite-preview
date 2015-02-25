@@ -1,12 +1,12 @@
 if version < 700
   syntax clear
-elseif exists("b:current_syntax")
+elseif exists('b:current_syntax')
   finish
 endif
 
 
 function! s:getguicolor(red, green, blue)
-  return printf("\#%02x%02x%02x", a:red, a:green, a:blue)
+  return printf('\#%02x%02x%02x', a:red, a:green, a:blue)
 endfunction
 
 let s:table = [0x00, 0x5f, 0x87, 0xaf, 0xdf, 0xff]
