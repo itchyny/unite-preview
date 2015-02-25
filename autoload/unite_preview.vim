@@ -2,7 +2,7 @@
 " Filename: autoload/unite_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2015/02/26 00:10:49.
+" Last Change: 2015/02/26 00:11:30.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -197,7 +197,6 @@ function! s:preview(path, type, extension) abort
   let winnr = winnr()
   let col = col('.')
   let line = line('.')
-  let existscommand = 1
   if has_key(a:type, 'command')
     let command = a:type.command
   elseif has_key(a:type, 'func')
@@ -208,12 +207,12 @@ function! s:preview(path, type, extension) abort
     call s:preview_window(a:type.extension)
     call a:type.vimfunc(a:path)
     call s:preview_restore(winnr, line, col)
-    let existscommand = 0
+    let command = ''
   else
-    let existscommand = 0
+    let command = ''
     let fname = a:path
   endif
-  if existscommand
+  if len(command)
     let c = (len(command) - len(substitute(command, '%s', '', 'g'))) / 2
     if c == 2
       let command = printf(command,
