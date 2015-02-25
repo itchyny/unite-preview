@@ -2,7 +2,7 @@
 " Filename: autoload/unite_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2015/02/26 00:00:29.
+" Last Change: 2015/02/26 00:06:51.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -50,10 +50,10 @@ if executable('xxd')
       let command = printf('file -b %s',
             \ escape(vimfiler#util#escape_file_searching(a:candidate.word), "`%'"))
       let fileb = system(command)
-      let istext = fileb =~ 'text'
-      let isexec = fileb =~ 'exec'
-      let isregexec = fileb =~ 'regexec'
-      let isobject = fileb =~ 'object'
+      let istext = fileb =~# 'text'
+      let isexec = fileb =~# 'exec'
+      let isregexec = fileb =~# 'regexec'
+      let isobject = fileb =~# 'object'
       return !istext && (isexec && !isregexec || isobject)
     endfunction
     call s:new_preview_type(s:executable)
@@ -261,7 +261,7 @@ function! s:extract_extension(candidate) abort
       let ext = 'vim'
     endif
   endif
-  if ext == ''
+  if ext ==# ''
     let ext = has_key(a:candidate, 'vimfiler__extension')
           \ ? a:candidate.vimfiler__extension
           \ : substitute(a:candidate.word, '.*\.', '', 'g')
@@ -290,7 +290,7 @@ function! s:preview_window(type) abort
   endfor
   let i = 0
   let prefix = expand('~/[preview')
-  let postfix = a:type == '' ? '' : '.' . a:type
+  let postfix = a:type ==# '' ? '' : '.' . a:type
   let name = prefix . ']' . postfix
   if index(buflist, bufnr(escape(name, '[] '))) > -1
     let template = prefix . ' %d]' . postfix
