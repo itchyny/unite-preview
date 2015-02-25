@@ -2,7 +2,7 @@
 " Filename: autoload/unite_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2015/02/26 00:06:51.
+" Last Change: 2015/02/26 00:10:15.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -190,7 +190,7 @@ function! s:preview_read(path, type, extension) abort
   call s:set_mode_line()
   call cursor(1, 1)
   call s:preview_setlocal()
-  call s:preview_restore(wincount, winnr, line, col)
+  call s:preview_restore(winnr, line, col)
 endfunction
 
 let s:preview_temp_file = tempname()
@@ -206,11 +206,11 @@ function! s:preview(path, type, extension) abort
   elseif has_key(a:type, 'func')
     call s:preview_window(a:type.extension)
     let command = a:type.func()
-    call s:preview_restore(wincount, winnr, line, col)
+    call s:preview_restore(winnr, line, col)
   elseif has_key(a:type, 'vimfunc')
     call s:preview_window(a:type.extension)
     call a:type.vimfunc(a:path)
-    call s:preview_restore(wincount, winnr, line, col)
+    call s:preview_restore(winnr, line, col)
     let existscommand = 0
   else
     let existscommand = 0
@@ -312,12 +312,8 @@ function! s:preview_window(type) abort
   silent % delete _
 endfunction
 
-function! s:preview_restore(wincount, winnr, line, col) abort
-  " if a:wincount == winnr('$')
-    silent execute a:winnr 'wincmd w'
-  " else
-  "   wincmd p
-  " endif
+function! s:preview_restore(winnr, line, col) abort
+  silent execute a:winnr 'wincmd w'
   call cursor(a:line, a:col)
 endfunction
 
