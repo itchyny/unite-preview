@@ -2,7 +2,7 @@
 " Filename: autoload/unite_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2015/02/26 00:11:30.
+" Last Change: 2025/01/30 15:20:45.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -18,21 +18,6 @@ function! s:new_preview_type(dict) abort
   endif
   call add(s:preview_type, a:dict)
 endfunction
-
-if executable('cam')
-  let s:image = {
-        \ 'match': '\c\.\(jpe\?g\|png\|bmp\|ico\)$',
-        \ 'extension': 'cam',
-        \ }
-  function! s:image.func() abort
-    let width = winwidth(0) * 9 / 10
-    let height = winheight(0) * 9 / 10
-    " TODO: -C (center)
-    let command = printf('cam -W %d -H %d', width, height)
-    return command . ' %s > %s'
-  endfunction
-  call s:new_preview_type(s:image)
-endif
 
 if executable('xxd')
   let s:binary = {
