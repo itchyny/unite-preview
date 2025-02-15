@@ -2,7 +2,7 @@
 " Filename: autoload/unite_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2025/01/30 15:20:45.
+" Last Change: 2025/02/15 23:04:13.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -32,9 +32,7 @@ if executable('xxd')
           \ 'command': 'xxd %s > %s'
           \ }
     function! s:executable.matcher(candidate) abort
-      let command = printf('file -b %s',
-            \ escape(vimfiler#util#escape_file_searching(a:candidate.word), "`%'"))
-      let fileb = system(command)
+      let fileb = system('file -b ' . shellescape(a:candidate.action__path))
       let istext = fileb =~# 'text'
       let isexec = fileb =~# 'exec'
       let isregexec = fileb =~# 'regexec'
@@ -46,28 +44,35 @@ if executable('xxd')
 endif
 
 let s:make = {
-      \ 'match': 'makefile',
-      \ 'filetype': 'make',
+      \ 'match': 'Makefile',
+      \ 'extension': 'Makefile',
       \ }
 call s:new_preview_type(s:make)
 
 let s:make_am = {
       \ 'match': 'Makefile\.am',
+      \ 'extension': '',
       \ 'filetype': 'automake',
       \ }
 call s:new_preview_type(s:make_am)
 
-let s:config = {
+let s:configure = {
       \ 'match': 'configure',
-      \ 'filetype': 'config',
+      \ 'filetype': 'sh',
       \ }
-call s:new_preview_type(s:config)
+call s:new_preview_type(s:configure)
 
-let s:config_h = {
-      \ 'match': 'config\.h\.',
-      \ 'extension': 'h',
+let s:dockerfile = {
+      \ 'match': 'Dockerfile',
+      \ 'filetype': 'dockerfile',
       \ }
-call s:new_preview_type(s:config_h)
+call s:new_preview_type(s:dockerfile)
+
+let s:gomod = {
+      \ 'match': 'go\.\(.\+\.\)\?mod$',
+      \ 'filetype': 'gomod',
+      \ }
+call s:new_preview_type(s:gomod)
 
 let s:vimrc = {
       \ 'match': 'vimrc$',
@@ -161,14 +166,9 @@ function! s:preview_read(path, type, extension) abort
   let line = line('.')
   call s:preview_window(a:extension)
   setlocal modifiable noreadonly
-  silent execute '0r' escape(vimfiler#util#escape_file_searching(a:path), "`%'")
+  silent 0r `=a:path`
   silent $ delete _
-  if has_key(a:type, 'filetype')
-    try
-      silent execute 'setlocal filetype=' . a:type.filetype
-    catch
-    endtry
-  endif
+  execute 'setlocal filetype=' . get(a:type, 'filetype', '')
   doautocmd BufNewFile
   call s:set_mode_line()
   call cursor(1, 1)
@@ -200,11 +200,9 @@ function! s:preview(path, type, extension) abort
   if len(command)
     let c = (len(command) - len(substitute(command, '%s', '', 'g'))) / 2
     if c == 2
-      let command = printf(command,
-            \ vimfiler#util#escape_file_searching(a:path), fname)
+      let command = printf(command, shellescape(a:path), fname)
     elseif c == 1
-      let command = printf(command,
-            \ vimfiler#util#escape_file_searching(a:path))
+      let command = printf(command, shellescape(a:path))
     endif
     silent! call system(command)
   endif
@@ -220,10 +218,9 @@ let s:extensionmap = {
 
 function! s:extract_extension(candidate) abort
   let ext = ''
-  let shebang = system(printf('cat %s | head -n 1 | tr -d "\n"',
-        \ escape(vimfiler#util#escape_file_searching(a:candidate.word), "`%'")))
-  if shebang =~? '^#!'
-    let ext = substitute(substitute(shebang, '^#!.*\/', '', 'g'),
+  let firstline = join(readfile(a:candidate.action__path, '', 1), '')
+  if firstline =~? '^#!'
+    let ext = substitute(substitute(firstline, '^#!.*\/', '', 'g'),
           \ '^[a-z]\+ ', '', '')
     let extnonum = substitute(ext, '\d\|\.', '', 'g')
     if has_key(s:extensionmap, ext)
@@ -231,16 +228,10 @@ function! s:extract_extension(candidate) abort
     elseif has_key(s:extensionmap, extnonum)
       let ext = s:extensionmap[extnonum]
     endif
-  elseif shebang =~? '^#compdef '
+  elseif firstline =~? '^#compdef '
     let ext = 'zsh'
-  elseif shebang =~? '\<xml\>'
+  elseif firstline =~? '\<xml\>'
     let ext = 'xml'
-  elseif shebang =~? '^{ '
-    let lastline = system(printf('cat %s | tail -n 1 | tr -d "\n"',
-          \ escape(vimfiler#util#escape_file_searching(a:candidate.word), "`%'")))
-    if lastline =~? '}$'
-      let ext = 'vim'
-    endif
   endif
   if ext ==# ''
     let ext = has_key(a:candidate, 'vimfiler__extension')
