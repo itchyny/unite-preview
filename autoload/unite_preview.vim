@@ -2,7 +2,7 @@
 " Filename: autoload/unite_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2025/02/15 23:04:13.
+" Last Change: 2025/02/16 13:53:29.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -151,15 +151,6 @@ function! unite_preview#func(candidate) abort
   endif
 endfunction
 
-function! s:preview_buffer() abort
-  for i in tabpagebuflist()
-    if bufexists(i) && bufloaded(i) && bufname(i) =~? '\[preview'
-      return i
-    endif
-  endfor
-  return -1
-endfunction
-
 function! s:preview_read(path, type, extension) abort
   let winnr = winnr()
   let col = col('.')
@@ -244,40 +235,27 @@ endfunction
 function! s:preview_setlocal() abort
   setlocal nomodifiable buftype=nofile noswapfile readonly
         \ bufhidden=hide nobuflisted
-  " redraw
 endfunction
 
 function! s:preview_window(type) abort
-  let bufnum = s:preview_buffer()
-  if bufnum == -1
-    silent execute 'rightb vnew'
+  let buf = get(filter(tabpagebuflist(), 'bufname(v:val) =~? "[preview"'), 0)
+  if buf == 0
+    rightbelow vnew
   else
-    silent execute bufwinnr(bufnum) 'wincmd w'
-    silent edit `=expand('~/[preview].')`
-    setlocal buftype=nofile noswapfile nobuflisted bufhidden=hide
+    execute bufwinnr(buf) 'wincmd w'
   endif
-  let buflist = []
-  for i in range(tabpagenr('$'))
-    call extend(buflist, tabpagebuflist(i + 1))
-  endfor
+  let bufs = filter(flatten(map(range(1, tabpagenr('$')),
+        \ 'tabpagebuflist(v:val)')), 'v:val != bufnr()')
   let i = 0
-  let prefix = expand('~/[preview')
-  let postfix = a:type ==# '' ? '' : '.' . a:type
-  let name = prefix . ']' . postfix
-  if index(buflist, bufnr(escape(name, '[] '))) > -1
-    let template = prefix . ' %d]' . postfix
+  while 1
+    let name = expand('~/') . printf(
+          \ '[preview%s]%s', i == 0 ? '' : ' ' . i,
+          \ a:type ==# '' ? '' : '.' . a:type)
+    if index(bufs, bufnr(name)) == -1 | break | endif
     let i += 1
-    let name = printf(template, i)
-    while index(buflist, bufnr(escape(name, '[] '))) > -1
-      let i += 1
-      let name = printf(template, i)
-    endwhile
-  endif
+  endwhile
   setlocal buftype=nofile noswapfile
-  try
-    silent edit `=name`
-  catch
-  endtry
+  silent edit `=name`
   call s:preview_setlocal()
   nnoremap <buffer><silent> q :<C-u>bdelete!<CR>
   setlocal modifiable noreadonly
