@@ -3,7 +3,7 @@
 " Version: 0.0
 " Author: itchyny
 " License: MIT License
-" Last Change: 2025/01/30 15:21:16.
+" Last Change: 2025/02/16 10:40:03.
 " =============================================================================
 
 if exists('g:loaded_unite_preview') || v:version < 700
@@ -21,7 +21,6 @@ function! s:preview.func(candidate)
 endfunction
 
 call unite#custom_action('file', 'auto_preview', s:preview)
-let g:vimfiler_preview_action = 'auto_preview'
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
