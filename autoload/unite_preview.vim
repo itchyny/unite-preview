@@ -2,7 +2,7 @@
 " Filename: autoload/unite_preview.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2025/02/16 13:53:29.
+" Last Change: 2025/02/17 21:46:21.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -29,7 +29,8 @@ if executable('xxd')
   if executable('file')
     let s:executable = {
           \ 'extension': 'xxd',
-          \ 'command': 'xxd %s > %s'
+          \ 'command': 'xxd %s > %s',
+          \ 'filetype': 'xxd'
           \ }
     function! s:executable.matcher(candidate) abort
       let fileb = system('file -b ' . shellescape(a:candidate.action__path))
