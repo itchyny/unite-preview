@@ -3,10 +3,10 @@
 " Version: 0.0
 " Author: itchyny
 " License: MIT License
-" Last Change: 2025/02/16 10:40:03.
+" Last Change: 2025/07/16 21:42:58.
 " =============================================================================
 
-if exists('g:loaded_unite_preview') || v:version < 700
+if exists('g:loaded_unite_preview') || v:version < 800
   finish
 endif
 let g:loaded_unite_preview = 1
